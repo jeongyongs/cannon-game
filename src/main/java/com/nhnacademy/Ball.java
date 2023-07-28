@@ -1,9 +1,11 @@
 package com.nhnacademy;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 
-public class Ball {
+public class Ball implements Regionable, Paintable {
 
     private Point location;
     private int radius;
@@ -19,27 +21,43 @@ public class Ball {
         this(location, radius, Color.BLACK);
     }
 
-    public Point getLocation() {
+    protected Point getLocation() {
         return location;
     }
 
-    public void setLocation(Point location) {
+    protected void setLocation(Point location) {
         this.location = location;
     }
 
-    public int getRadius() {
+    protected int getRadius() {
         return radius;
     }
 
-    public void setRadius(int radius) {
+    protected void setRadius(int radius) {
         this.radius = radius;
     }
 
-    public Color getColor() {
+    protected Color getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
+    protected void setColor(Color color) {
         this.color = color;
+    }
+
+    @Override
+    public Rectangle getRegion() {
+        return new Rectangle((int) (getLocation().getX() - getRadius()), (int) (getLocation().getY() - getRadius()),
+                2 * getRadius(), 2 * getRadius());
+    }
+
+    @Override
+    public void paint(Graphics graphics) {
+        Color previous = graphics.getColor();
+
+        graphics.setColor(getColor());
+        graphics.fillOval((int) (getLocation().getX() - getRadius()), (int) (getLocation().getY() - getRadius()),
+                2 * getRadius(), 2 * getRadius());
+        graphics.setColor(previous);
     }
 }

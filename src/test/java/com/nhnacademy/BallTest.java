@@ -11,13 +11,14 @@ import org.junit.jupiter.api.Test;
 
 public class BallTest {
 
-    @RepeatedTest(10)
+    @RepeatedTest(1000)
     public void testBallCreation() {
         // given
-        final int x = (int) (1 + Math.random() * 20);
-        final int y = (int) (1 + Math.random() * 20);
-        final int radius = (int) (1 + Math.random() * 20);
-        final Color color = Color.BLUE;
+        final int x = (int) (Integer.MIN_VALUE + Math.random() * (Integer.MAX_VALUE - Integer.MIN_VALUE));
+        final int y = (int) (Integer.MIN_VALUE + Math.random() * (Integer.MAX_VALUE - Integer.MIN_VALUE));
+        final int radius = (int) (Integer.MIN_VALUE + Math.random() * (Integer.MAX_VALUE - Integer.MIN_VALUE));
+        final Color color = new Color((int) (Math.random() * 256), (int) (Math.random() * 256),
+                (int) (Math.random() * 256));
 
         // when
         Ball ball = new Ball(new Point(x, y), radius, color);
