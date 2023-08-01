@@ -11,6 +11,7 @@ public class Ball implements Regionable, Paintable {
     private int radius;
     private Color color;
     private static int totalCount = 0;
+    private boolean boundVisible = false;
 
     public Ball(Point location, int radius, Color color) {
         this.location = location;
@@ -51,6 +52,10 @@ public class Ball implements Regionable, Paintable {
         this.color = color;
     }
 
+    protected void setBoundVisible(boolean visible) {
+        boundVisible = visible;
+    }
+
     @Override
     public Rectangle getRegion() {
         return new Rectangle((int) (getLocation().getX() - getRadius()), (int) (getLocation().getY() - getRadius()),
@@ -64,6 +69,10 @@ public class Ball implements Regionable, Paintable {
         graphics.setColor(getColor());
         graphics.fillOval((int) (getLocation().getX() - getRadius()), (int) (getLocation().getY() - getRadius()),
                 2 * getRadius(), 2 * getRadius());
+        if (boundVisible) {
+            graphics.drawRect((int) (getLocation().getX() - getRadius()), (int) (getLocation().getY() - getRadius()),
+                    2 * getRadius(), 2 * getRadius());
+        }
         graphics.setColor(previous);
     }
 }

@@ -36,8 +36,17 @@ public class CollisionBall extends BoundedBall {
             if (intersection.getCenterY() < getRegion().getCenterY()) { // 상 충돌
                 getMotion().setDY(Math.abs(getMotion().getDY()));
             }
-            if (intersection.getCenterY() > getRegion().getCenterY()) { // 상 충돌
+            if (intersection.getCenterY() > getRegion().getCenterY()) { // 하 충돌
                 getMotion().setDY(-Math.abs(getMotion().getDY()));
+
+                if (Math.abs(getMotion().getDY()) < 3 && getMotion().getDY() != 0) {
+                    setLocation(new Point((int) getRegion().getCenterX(),
+                            (int) (getRegion().getCenterY() - intersection.getHeight())));
+                }
+                if (getMotion().getDX() != 0) {
+                    getMotion().setDX(getMotion().getDX()
+                            - (getMotion().getDX() / Math.abs(getMotion().getDX())));
+                }
             }
         }
     }

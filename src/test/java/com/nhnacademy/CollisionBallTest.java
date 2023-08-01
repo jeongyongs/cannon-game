@@ -29,7 +29,7 @@ public class CollisionBallTest {
     private static final int MIN_BALL_POWER = 10;
     private static final int MAX_BALL_RADIUS = 50;
     private static final int MIN_BALL_RADIUS = 30;
-    private static final int BALL_COUNT = 5;
+    private static final int BALL_COUNT = 3;
 
     public static void main(String[] args) {
         testVisible();
@@ -38,6 +38,10 @@ public class CollisionBallTest {
     private static void testVisible() {
         JFrame frame = new JFrame();
         MovableWorld world = new MovableWorld();
+        Ball staticBall = new Ball(new Point(500, 500), 50);
+
+        staticBall.setBoundVisible(true);
+        world.add(staticBall);
 
         IntStream.range(0, BALL_COUNT)
                 .forEach(i -> {
@@ -52,6 +56,8 @@ public class CollisionBallTest {
 
                     ball.setMotion(Motion.createDisplacement(BALL_POWER, BALL_ANGLE));
                     ball.setWorld(world);
+                    ball.setBoundVisible(true);
+                    ball.setResistance(true); // 마 찰
                     world.add(ball);
                 });
 

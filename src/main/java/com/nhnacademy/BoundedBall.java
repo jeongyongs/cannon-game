@@ -7,12 +7,18 @@ import java.util.function.Predicate;
 
 public class BoundedBall extends MovableBall implements Bouncable {
 
+    private boolean resistance = false;
+
     public BoundedBall(Point location, int radius, Color color) {
         super(location, radius, color);
     }
 
     public BoundedBall(Point location, int radius) {
         super(location, radius);
+    }
+
+    public void setResistance(boolean resistance) {
+        this.resistance = resistance;
     }
 
     @Override
@@ -51,8 +57,9 @@ public class BoundedBall extends MovableBall implements Bouncable {
                         if (Math.abs(getMotion().getDY()) < 3) { // 이탈 방지
                             setLocation(new Point((int) getRegion().getCenterX(),
                                     (int) (getWorld().getBounds().getMaxY() - getRegion().getHeight() / 2)));
+                            getMotion().setDY(-Math.abs(getMotion().getDY()));
                         }
-                        if (getMotion().getDX() != 0) {
+                        if (resistance && getMotion().getDX() != 0) { // 마찰 감소
                             getMotion().setDX(getMotion().getDX()
                                     - (getMotion().getDX() / Math.abs(getMotion().getDX())));
                         }
