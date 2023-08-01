@@ -6,6 +6,8 @@ import java.awt.Point;
 public class MovableBall extends Ball implements Movable {
 
     private Motion motion = Motion.createPosition(0, 0);
+    private int delay = 10;
+    private Thread thread = new Thread(this);
 
     public MovableBall(Point location, int radius, Color color) {
         super(location, radius, color);
@@ -33,5 +35,37 @@ public class MovableBall extends Ball implements Movable {
     @Override
     public void moveTo(Point location) {
         setLocation(location);
+    }
+
+    @Override
+    public int getDelay() {
+        return delay;
+    }
+
+    @Override
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
+    @Override
+    public void start() {
+        thread.run();
+    }
+
+    @Override
+    public void stop() {
+        thread.interrupt();
+    }
+
+    @Override
+    public void run() {
+        while (!Thread.interrupted()) {
+            move();
+            try {
+                Thread.sleep(delay);
+            } catch (InterruptedException ignore) {
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 }

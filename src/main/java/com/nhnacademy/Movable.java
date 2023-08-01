@@ -2,7 +2,7 @@ package com.nhnacademy;
 
 import java.awt.Point;
 
-public interface Movable {
+public interface Movable extends Runnable {
 
     public void setMotion(Motion motion);
 
@@ -11,4 +11,12 @@ public interface Movable {
     public void move();
 
     public void moveTo(Point location);
+
+    public int getDelay();
+
+    public void setDelay(int dT);
+
+    public void start();
+
+    public void stop();
 }

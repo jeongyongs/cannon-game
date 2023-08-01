@@ -1,3 +1,4 @@
 bin/
 log/
 .vscode/
+.DS_Store

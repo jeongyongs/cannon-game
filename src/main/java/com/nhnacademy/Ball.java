@@ -21,11 +21,11 @@ public class Ball implements Regionable, Paintable {
         this(location, radius, Color.BLACK);
     }
 
-    protected Point getLocation() {
+    public Point getLocation() {
         return location;
     }
 
-    protected void setLocation(Point location) {
+    public void setLocation(Point location) {
         this.location = location;
     }
 

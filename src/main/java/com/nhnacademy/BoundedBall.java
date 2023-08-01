@@ -3,6 +3,7 @@ package com.nhnacademy;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.function.Predicate;
 
 public class BoundedBall extends MovableBall implements Bouncable {
 
@@ -35,18 +36,9 @@ public class BoundedBall extends MovableBall implements Bouncable {
     }
 
     @Override
-    public void bounce() {
-        if (getLocation().getX() - getRadius() < getBounds().getMinX()) { // 좌측
-            getMotion().setDX(Math.abs(getMotion().getDX()));
-        }
-        if (getLocation().getX() + getRadius() > getBounds().getMaxX()) { // 우측
-            getMotion().setDX(-Math.abs(getMotion().getDX()));
-        }
-        if (getLocation().getY() - getRadius() < getBounds().getMinY()) { // 상단
-            getMotion().setDY(Math.abs(getMotion().getDY()));
-        }
-        if (getLocation().getY() + getRadius() > getBounds().getMaxY()) { // 하단
-            getMotion().setDY(-Math.abs(getMotion().getDY()));
+    public void bounce(Predicate<Object> predicate, Runnable runnable) {
+        if (predicate.test(null)) {
+            runnable.run();
         }
     }
 
@@ -55,7 +47,17 @@ public class BoundedBall extends MovableBall implements Bouncable {
         super.move();
 
         if (isOutOfBounds()) {
-            bounce();
+            bounce(ignore -> getLocation().getX() - getRadius() < getBounds().getMinX(), // 좌측
+                    () -> getMotion().setDX(Math.abs(getMotion().getDX())));
+
+            bounce(ignore -> getLocation().getX() + getRadius() > getBounds().getMaxX(), // 우측
+                    () -> getMotion().setDX(-Math.abs(getMotion().getDX())));
+
+            bounce(ignore -> getLocation().getY() - getRadius() < getBounds().getMinY(), // 상단
+                    () -> getMotion().setDY(Math.abs(getMotion().getDY())));
+
+            bounce(ignore -> getLocation().getY() + getRadius() > getBounds().getMaxY(), // 하단
+                    () -> getMotion().setDY(-Math.abs(getMotion().getDY())));
         }
     }
 }
