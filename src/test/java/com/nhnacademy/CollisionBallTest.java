@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 
 import javax.swing.JFrame;
 
-public class BoundedBallTest {
+public class CollisionBallTest {
 
     private static final Random random = new Random();
 
@@ -29,7 +29,7 @@ public class BoundedBallTest {
     private static final int MIN_BALL_POWER = 10;
     private static final int MAX_BALL_RADIUS = 50;
     private static final int MIN_BALL_RADIUS = 30;
-    private static final int BALL_COUNT = 3;
+    private static final int BALL_COUNT = 5;
 
     public static void main(String[] args) {
         testVisible();
@@ -48,7 +48,7 @@ public class BoundedBallTest {
                     final int BALL_POWER = MIN_BALL_POWER + random.nextInt(MAX_BALL_POWER - MIN_BALL_POWER);
                     final int BALL_ANGLE = MIN_BALL_ANGLE + random.nextInt(MAX_BALL_ANGLE - MIN_BALL_ANGLE);
 
-                    BoundedBall ball = new BoundedBall(new Point(BALL_X, BALL_Y), BALL_RADIUS, BALL_COLOR);
+                    CollisionBall ball = new CollisionBall(new Point(BALL_X, BALL_Y), BALL_RADIUS, BALL_COLOR);
 
                     ball.setMotion(Motion.createDisplacement(BALL_POWER, BALL_ANGLE));
                     ball.setWorld(world);

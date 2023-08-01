@@ -7,7 +7,8 @@ public class MovableBall extends Ball implements Movable {
 
     private Motion motion = Motion.createPosition(0, 0);
     private int delay = 10;
-    private Thread thread = new Thread(this);
+    private Thread thread = new Thread(this, this.getClass().getSimpleName() + getTotalCount());
+    private MovableWorld world;
 
     public MovableBall(Point location, int radius, Color color) {
         super(location, radius, color);
@@ -28,11 +29,6 @@ public class MovableBall extends Ball implements Movable {
     }
 
     @Override
-    public void move() {
-        getLocation().translate(getMotion().getDX(), getMotion().getDY());
-    }
-
-    @Override
     public void moveTo(Point location) {
         setLocation(location);
     }
@@ -49,12 +45,24 @@ public class MovableBall extends Ball implements Movable {
 
     @Override
     public void start() {
-        thread.run();
+        thread.start();
     }
 
     @Override
     public void stop() {
         thread.interrupt();
+    }
+
+    @Override
+    public void move() {
+        applyEffect();
+        getLocation().translate(getMotion().getDX(), getMotion().getDY());
+    }
+
+    private void applyEffect() {
+        world.getEffects() // effects 적용
+                .stream()
+                .forEach(effect -> getMotion().add(effect));
     }
 
     @Override
@@ -67,5 +75,15 @@ public class MovableBall extends Ball implements Movable {
                 Thread.currentThread().interrupt();
             }
         }
+    }
+
+    @Override
+    public void setWorld(MovableWorld world) {
+        this.world = world;
+    }
+
+    @Override
+    public MovableWorld getWorld() {
+        return world;
     }
 }

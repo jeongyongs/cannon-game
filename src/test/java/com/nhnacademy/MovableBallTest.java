@@ -17,10 +17,12 @@ public class MovableBallTest {
         final int radius = random.nextInt(100);
         final int dX = random.nextInt(100);
         final int dY = random.nextInt(100);
+        final MovableWorld world = new MovableWorld();
 
         // when
         MovableBall ball = new MovableBall(new Point(x, y), radius);
         ball.setMotion(Motion.createPosition(dX, dY));
+        ball.setWorld(world);
         ball.move();
 
         // then

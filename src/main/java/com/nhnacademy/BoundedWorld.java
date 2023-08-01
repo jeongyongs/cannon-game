@@ -25,12 +25,22 @@ public class BoundedWorld extends MovableWorld {
         }
         if (regionableItem.getRegion().getMaxY() > getBounds().getMaxY()) {
             item.getMotion().setDY(-Math.abs(item.getMotion().getDY()));
+
+            // if (Math.abs(item.getMotion().getDY()) < 2) { // 이탈 방지
+            // regionableItem.setLocation(new Point((int)
+            // regionableItem.getRegion().getCenterX(),
+            // (int) (getBounds().getMaxY() - regionableItem.getRegion().getHeight() / 2)));
+            // }
+            // if (item.getMotion().getDX() != 0) {
+            // item.getMotion().setDX(item.getMotion().getDX()
+            // - (item.getMotion().getDX() / Math.abs(item.getMotion().getDX())));
+            // }
         }
     }
 
     @Override
-    public void move() {
-        super.move();
+    public void refresh() {
+        super.refresh();
 
         getItems().stream()
                 .filter(item -> item instanceof Movable && outOfBounds(item))

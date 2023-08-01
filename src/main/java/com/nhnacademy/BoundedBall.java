@@ -7,8 +7,6 @@ import java.util.function.Predicate;
 
 public class BoundedBall extends MovableBall implements Bouncable {
 
-    private Rectangle worldBounds = new Rectangle();
-
     public BoundedBall(Point location, int radius, Color color) {
         super(location, radius, color);
     }
@@ -18,18 +16,8 @@ public class BoundedBall extends MovableBall implements Bouncable {
     }
 
     @Override
-    public Rectangle getBounds() {
-        return worldBounds;
-    }
-
-    @Override
-    public void setBounds(Rectangle worldBounds) {
-        this.worldBounds = worldBounds;
-    }
-
-    @Override
     public boolean isOutOfBounds() {
-        Rectangle intersection = getRegion().intersection(getBounds());
+        Rectangle intersection = getRegion().intersection(getWorld().getBounds());
 
         return intersection.getWidth() != getRegion().getWidth()
                 || intersection.getHeight() != getRegion().getHeight();
@@ -47,17 +35,28 @@ public class BoundedBall extends MovableBall implements Bouncable {
         super.move();
 
         if (isOutOfBounds()) {
-            bounce(ignore -> getLocation().getX() - getRadius() < getBounds().getMinX(), // 좌측
+            bounce(ignore -> getLocation().getX() - getRadius() < getWorld().getBounds().getMinX(), // 좌측
                     () -> getMotion().setDX(Math.abs(getMotion().getDX())));
 
-            bounce(ignore -> getLocation().getX() + getRadius() > getBounds().getMaxX(), // 우측
+            bounce(ignore -> getLocation().getX() + getRadius() > getWorld().getBounds().getMaxX(), // 우측
                     () -> getMotion().setDX(-Math.abs(getMotion().getDX())));
 
-            bounce(ignore -> getLocation().getY() - getRadius() < getBounds().getMinY(), // 상단
+            bounce(ignore -> getLocation().getY() - getRadius() < getWorld().getBounds().getMinY(), // 상단
                     () -> getMotion().setDY(Math.abs(getMotion().getDY())));
 
-            bounce(ignore -> getLocation().getY() + getRadius() > getBounds().getMaxY(), // 하단
-                    () -> getMotion().setDY(-Math.abs(getMotion().getDY())));
+            bounce(ignore -> getLocation().getY() + getRadius() > getWorld().getBounds().getMaxY(), // 하단
+                    () -> {
+                        getMotion().setDY(-Math.abs(getMotion().getDY()));
+
+                        if (Math.abs(getMotion().getDY()) < 3) { // 이탈 방지
+                            setLocation(new Point((int) getRegion().getCenterX(),
+                                    (int) (getWorld().getBounds().getMaxY() - getRegion().getHeight() / 2)));
+                        }
+                        if (getMotion().getDX() != 0) {
+                            getMotion().setDX(getMotion().getDX()
+                                    - (getMotion().getDX() / Math.abs(getMotion().getDX())));
+                        }
+                    });
         }
     }
 }

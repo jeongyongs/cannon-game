@@ -12,24 +12,24 @@ public class BoundedWorldTest {
     private static final Random random = new Random();
 
     private static final int FRAME_X = 800;
-    private static final int FRAME_Y = 500;
+    private static final int FRAME_Y = 400;
     private static final int FRAME_WIDTH = 1000;
-    private static final int FRAME_HEIGHT = 500;
+    private static final int FRAME_HEIGHT = 700;
 
     private static final int TOTAL_FRAME = Integer.MAX_VALUE;
     private static final int DELAY = 10;
 
-    private static final int MAX_BALL_X = 100;
-    private static final int MIN_BALL_X = 99;
-    private static final int MAX_BALL_Y = 360;
-    private static final int MIN_BALL_Y = 359;
-    private static final int MAX_BALL_ANGLE = 300;
-    private static final int MIN_BALL_ANGLE = 290;
-    private static final int MAX_BALL_POWER = 40;
-    private static final int MIN_BALL_POWER = 39;
+    private static final int MAX_BALL_X = 950;
+    private static final int MIN_BALL_X = 50;
+    private static final int MAX_BALL_Y = 300;
+    private static final int MIN_BALL_Y = 50;
+    private static final int MAX_BALL_ANGLE = 360;
+    private static final int MIN_BALL_ANGLE = 0;
+    private static final int MAX_BALL_POWER = 30;
+    private static final int MIN_BALL_POWER = 10;
     private static final int MAX_BALL_RADIUS = 50;
     private static final int MIN_BALL_RADIUS = 30;
-    private static final int BALL_COUNT = 1;
+    private static final int BALL_COUNT = 10;
 
     public static void main(String[] args) {
         testVisible();
@@ -54,7 +54,7 @@ public class BoundedWorldTest {
                     world.add(ball);
                 });
 
-        world.setMaxMoveCount(TOTAL_FRAME);
+        world.setMaxRefreshCount(TOTAL_FRAME);
         world.setDelay(DELAY);
         world.addEffect(Motion.createPosition(0, 2)); // 중 력
 
@@ -64,6 +64,6 @@ public class BoundedWorldTest {
         frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         frame.setVisible(true);
 
-        world.run();
+        world.start();
     }
 }

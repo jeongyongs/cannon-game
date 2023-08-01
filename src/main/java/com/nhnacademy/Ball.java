@@ -10,15 +10,21 @@ public class Ball implements Regionable, Paintable {
     private Point location;
     private int radius;
     private Color color;
+    private static int totalCount = 0;
 
     public Ball(Point location, int radius, Color color) {
         this.location = location;
         this.radius = radius;
         this.color = color;
+        totalCount++;
     }
 
     public Ball(Point location, int radius) {
         this(location, radius, Color.BLACK);
+    }
+
+    public int getTotalCount() {
+        return totalCount;
     }
 
     public Point getLocation() {

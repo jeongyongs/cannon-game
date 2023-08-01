@@ -13,19 +13,19 @@ import org.junit.jupiter.api.Test;
 public class MovableWorldTest {
 
     private static final int BALL_X = 40;
-    private static final int BALL_Y = 460;
-    private static final int BALL_RADIUS = 20;
+    private static final int BALL_Y = 660;
+    private static final int BALL_RADIUS = 40;
     private static final Color BALL_COLOR = Color.RED;
-    private static final int BALL_POWER = 30;
+    private static final int BALL_POWER = 50;
     private static final int BALL_ANGLE = -60;
 
-    private static final int TOTAL_FRAME = 50;
+    private static final int TOTAL_FRAME = 100;
     private static final int DELAY = 10;
 
-    private static final int FRAME_X = 1000;
-    private static final int FRAME_Y = 500;
-    private static final int FRAME_WIDTH = 700;
-    private static final int FRAME_HEIGHT = 500;
+    private static final int FRAME_X = 800;
+    private static final int FRAME_Y = 400;
+    private static final int FRAME_WIDTH = 1000;
+    private static final int FRAME_HEIGHT = 700;
 
     public static void main(String[] args) {
         testVisible();
@@ -37,9 +37,10 @@ public class MovableWorldTest {
         MovableBall ball = new MovableBall(new Point(BALL_X, BALL_Y), BALL_RADIUS, BALL_COLOR);
 
         ball.setMotion(Motion.createDisplacement(BALL_POWER, BALL_ANGLE));
+        ball.setWorld(world);
 
         world.add(ball);
-        world.setMaxMoveCount(TOTAL_FRAME);
+        world.setMaxRefreshCount(TOTAL_FRAME);
         world.setDelay(DELAY);
         world.addEffect(Motion.createPosition(0, 2));
 

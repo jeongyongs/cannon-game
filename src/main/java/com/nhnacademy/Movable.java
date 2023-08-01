@@ -19,4 +19,9 @@ public interface Movable extends Runnable {
     public void start();
 
     public void stop();
+
+    public void setWorld(MovableWorld world);
+
+    public MovableWorld getWorld();
+
 }
