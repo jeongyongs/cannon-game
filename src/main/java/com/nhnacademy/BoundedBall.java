@@ -21,6 +21,10 @@ public class BoundedBall extends MovableBall implements Bouncable {
         this.resistance = resistance;
     }
 
+    public boolean getResistance() {
+        return resistance;
+    }
+
     @Override
     public boolean isOutOfBounds() {
         Rectangle intersection = getRegion().intersection(getWorld().getBounds());
@@ -42,24 +46,37 @@ public class BoundedBall extends MovableBall implements Bouncable {
 
         if (isOutOfBounds()) {
             bounce(ignore -> getLocation().getX() - getRadius() < getWorld().getBounds().getMinX(), // 좌측
-                    () -> getMotion().setDX(Math.abs(getMotion().getDX())));
+                    () -> {
+                        getMotion().setDX(Math.abs(getMotion().getDX()));
+                        setLocation(new Point((int) (getWorld().getBounds().getMinX() + getRegion().getWidth() / 2),
+                                (int) getRegion().getCenterY()));
+                        getMotion().add(Motion.createPosition(-1, 0));
+                    });
 
             bounce(ignore -> getLocation().getX() + getRadius() > getWorld().getBounds().getMaxX(), // 우측
-                    () -> getMotion().setDX(-Math.abs(getMotion().getDX())));
+                    () -> {
+                        getMotion().setDX(-Math.abs(getMotion().getDX()));
+                        setLocation(new Point((int) (getWorld().getBounds().getMaxX() - getRegion().getWidth() / 2),
+                                (int) getRegion().getCenterY()));
+                        getMotion().add(Motion.createPosition(1, 0));
+                    });
 
             bounce(ignore -> getLocation().getY() - getRadius() < getWorld().getBounds().getMinY(), // 상단
-                    () -> getMotion().setDY(Math.abs(getMotion().getDY())));
+                    () -> {
+                        getMotion().setDY(Math.abs(getMotion().getDY()));
+                        setLocation(new Point((int) getRegion().getCenterX(),
+                                (int) (getWorld().getBounds().getMinY() + getRegion().getHeight() / 2)));
+                        getMotion().add(Motion.createPosition(0, -1));
+                    });
 
             bounce(ignore -> getLocation().getY() + getRadius() > getWorld().getBounds().getMaxY(), // 하단
                     () -> {
                         getMotion().setDY(-Math.abs(getMotion().getDY()));
+                        setLocation(new Point((int) getRegion().getCenterX(),
+                                (int) (getWorld().getBounds().getMaxY() - getRegion().getHeight() / 2)));
+                        getMotion().add(Motion.createPosition(0, 1));
 
-                        if (Math.abs(getMotion().getDY()) < 3) { // 이탈 방지
-                            setLocation(new Point((int) getRegion().getCenterX(),
-                                    (int) (getWorld().getBounds().getMaxY() - getRegion().getHeight() / 2)));
-                            getMotion().setDY(-Math.abs(getMotion().getDY()));
-                        }
-                        if (resistance && getMotion().getDX() != 0) { // 마찰 감소
+                        if (resistance && getMotion().getDX() != 0) { // 마 찰
                             getMotion().setDX(getMotion().getDX()
                                     - (getMotion().getDX() / Math.abs(getMotion().getDX())));
                         }

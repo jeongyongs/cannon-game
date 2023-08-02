@@ -2,7 +2,6 @@ package com.nhnacademy;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class MovableWorld extends World implements Runnable {
 
@@ -46,21 +45,21 @@ public class MovableWorld extends World implements Runnable {
 
     @Override
     public void run() {
-        getItems().stream() // item thread 시작
-                .filter(item -> item instanceof Movable)
-                .map(item -> (Movable) item)
-                .forEach(item -> {
-                    item.setDelay(delay);
-                    item.start();
-                });
+        // getItems().stream() // item thread 시작
+        // .filter(item -> item instanceof Movable)
+        // .map(item -> (Movable) item)
+        // .forEach(item -> {
+        // item.setDelay(delay);
+        // item.start();
+        // });
 
-        IntStream.range(0, maxRefreshCount) // 화면 갱신
-                .forEach(i -> refresh());
+        // IntStream.range(0, maxRefreshCount) // 화면 갱신
+        // .forEach(i -> refresh());
 
-        getItems().stream() // item thread 중지
-                .filter(item -> item instanceof Movable)
-                .map(item -> (Movable) item)
-                .forEach(item -> item.stop());
+        // getItems().stream() // item thread 중지
+        // .filter(item -> item instanceof Movable)
+        // .map(item -> (Movable) item)
+        // .forEach(item -> item.stop());
     }
 
     public void addEffect(Motion effect) {

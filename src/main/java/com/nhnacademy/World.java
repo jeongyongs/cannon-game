@@ -18,6 +18,10 @@ public class World extends JPanel {
         return items;
     }
 
+    protected void setItems(List<Regionable> items) {
+        this.items = items;
+    }
+
     protected void add(Regionable item) {
         items.add(item);
     }

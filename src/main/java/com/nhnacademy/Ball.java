@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import javax.swing.event.EventListenerList;
+
 public class Ball implements Regionable, Paintable {
 
     private Point location;
@@ -12,12 +14,16 @@ public class Ball implements Regionable, Paintable {
     private Color color;
     private static int totalCount = 0;
     private boolean boundVisible = false;
+    private Type type;
+    private EventListenerList eventListenerList;
 
     public Ball(Point location, int radius, Color color) {
         this.location = location;
         this.radius = radius;
         this.color = color;
         totalCount++;
+        type = Type.Wall;
+        eventListenerList = new EventListenerList();
     }
 
     public Ball(Point location, int radius) {
@@ -56,6 +62,10 @@ public class Ball implements Regionable, Paintable {
         boundVisible = visible;
     }
 
+    public void addCollisionEventListener() {
+        eventListenerList.add(null, null);
+    }
+
     @Override
     public Rectangle getRegion() {
         return new Rectangle((int) (getLocation().getX() - getRadius()), (int) (getLocation().getY() - getRadius()),
@@ -74,5 +84,15 @@ public class Ball implements Regionable, Paintable {
                     2 * getRadius(), 2 * getRadius());
         }
         graphics.setColor(previous);
+    }
+
+    @Override
+    public Type getType() {
+        return type;
+    }
+
+    @Override
+    public void setType(Type type) {
+        this.type = type;
     }
 }
